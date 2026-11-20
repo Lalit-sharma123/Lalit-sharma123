@@ -13,12 +13,7 @@
 <img align="left" width="100%" src="./assets/sec-arsenal.svg" alt="AI Engineering Arsenal" />
 <img align="left" width="100%" src="./assets/arsenal.svg" alt="Technologies: AI/ML, Generative AI, LangChain, LangGraph, FastAPI, Python, SQL, databases, Docker and more" />
 <img align="left" width="100%" src="./assets/sec-projects.svg" alt="Featured AI Projects" />
-<a href="https://github.com/Lalit-sharma123/REPLACE_REPO_NAME"><img align="left" width="50%" src="./assets/card-hospital-agent.svg" alt="Hospital AI Agent" /></a>
-<a href="https://github.com/Lalit-sharma123/REPLACE_REPO_NAME"><img align="left" width="50%" src="./assets/card-tryonai.svg" alt="TryOnAI: Virtual Fashion Try-On" /></a>
-<a href="https://github.com/Lalit-sharma123/REPLACE_REPO_NAME"><img align="left" width="50%" src="./assets/card-voice-assistant.svg" alt="Personal Voice AI Assistant" /></a>
-<a href="https://github.com/Lalit-sharma123/REPLACE_REPO_NAME"><img align="left" width="50%" src="./assets/card-rag-knowledge.svg" alt="RAG Knowledge Intelligence" /></a>
-<a href="https://github.com/Lalit-sharma123/REPLACE_REPO_NAME"><img align="left" width="50%" src="./assets/card-database-agent.svg" alt="Database AI Agent" /></a>
-<a href="https://github.com/Lalit-sharma123/REPLACE_REPO_NAME"><img align="left" width="50%" src="./assets/card-ai-analytics.svg" alt="AI Analytics Platform" /></a>
+<a href="https://github.com/Lalit-sharma123/REPLACE_REPO_NAME"><img align="left" width="50%" src="./assets/card-hospital-agent.svg" alt="Hospital AI Agent" /></a><a href="https://github.com/Lalit-sharma123/REPLACE_REPO_NAME"><img align="left" width="50%" src="./assets/card-tryonai.svg" alt="TryOnAI: Virtual Fashion Try-On" /></a><a href="https://github.com/Lalit-sharma123/REPLACE_REPO_NAME"><img align="left" width="50%" src="./assets/card-voice-assistant.svg" alt="Personal Voice AI Assistant" /></a><a href="https://github.com/Lalit-sharma123/REPLACE_REPO_NAME"><img align="left" width="50%" src="./assets/card-rag-knowledge.svg" alt="RAG Knowledge Intelligence" /></a><a href="https://github.com/Lalit-sharma123/REPLACE_REPO_NAME"><img align="left" width="50%" src="./assets/card-database-agent.svg" alt="Database AI Agent" /></a><a href="https://github.com/Lalit-sharma123/REPLACE_REPO_NAME"><img align="left" width="50%" src="./assets/card-ai-analytics.svg" alt="AI Analytics Platform" /></a>
 <img align="left" width="100%" src="./assets/sec-lab.svg" alt="Current AI Lab" />
 <img align="left" width="100%" src="./assets/lab-terminal.svg" alt="Currently building: AI agents, advanced RAG pipelines, LLM application architecture, AI-powered analytics, self-hosted AI systems" />
 <img align="left" width="100%" src="./assets/sec-stats.svg" alt="GitHub Statistics" />
@@ -26,10 +21,7 @@
 <img align="left" width="100%" src="./assets/sec-snake.svg" alt="Contribution Snake" />
 <img align="left" width="100%" src="https://raw.githubusercontent.com/Lalit-sharma123/Lalit-sharma123/output/github-snake-dark.svg" alt="Contribution snake eating the contribution graph" />
 <img align="left" width="100%" src="./assets/sec-connect.svg" alt="Let's Connect" />
-<a href="https://www.linkedin.com/in/REPLACE_LINKEDIN_HANDLE"><img align="left" width="25%" src="./assets/btn-linkedin.svg" alt="LinkedIn" /></a>
-<a href="mailto:REPLACE_YOUR_EMAIL"><img align="left" width="25%" src="./assets/btn-email.svg" alt="Email" /></a>
-<a href="https://REPLACE_YOUR_PORTFOLIO_URL"><img align="left" width="25%" src="./assets/btn-portfolio.svg" alt="Portfolio" /></a>
-<a href="https://github.com/Lalit-sharma123"><img align="left" width="25%" src="./assets/btn-github.svg" alt="GitHub" /></a>
+<a href="https://www.linkedin.com/in/REPLACE_LINKEDIN_HANDLE"><img align="left" width="25%" src="./assets/btn-linkedin.svg" alt="LinkedIn" /></a><a href="mailto:REPLACE_YOUR_EMAIL"><img align="left" width="25%" src="./assets/btn-email.svg" alt="Email" /></a><a href="https://REPLACE_YOUR_PORTFOLIO_URL"><img align="left" width="25%" src="./assets/btn-portfolio.svg" alt="Portfolio" /></a><a href="https://github.com/Lalit-sharma123"><img align="left" width="25%" src="./assets/btn-github.svg" alt="GitHub" /></a>
 <img align="left" width="100%" src="./assets/footer.svg" alt="Models make predictions. Engineering makes them dependable." />
 </div>
 <p align="center"><img src="https://komarev.com/ghpvc/?username=Lalit-sharma123&label=PROFILE%20VIEWS&color=a855f7&labelColor=0e0a26&style=for-the-badge" alt="Profile views" /></p>

@@ -107,8 +107,9 @@ def build(s, login):
     weeks = []
     for i in range(0, len(s["days"]), 7):
         chunk = s["days"][i:i + 7]
-        weeks.append((chunk[0][0], sum(c for _, c in chunk)))
-    cx0, cx1, cy0, cy1 = 104, 1124, 276, 456
+        if len(chunk) == 7:  # skip the partial current week so the line doesn't dive to 0
+            weeks.append((chunk[0][0], sum(c for _, c in chunk)))
+    cx0, cx1, cy0, cy1 = 104, 1096, 300, 456
     peak = max([c for _, c in weeks] + [1])
     n = len(weeks)
     pts = [(cx0 + (cx1 - cx0) * i / max(n - 1, 1), cy1 - (cy1 - cy0) * c / peak) for i, (_, c) in enumerate(weeks)]
