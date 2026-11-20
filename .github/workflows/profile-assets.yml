@@ -45,9 +45,9 @@ jobs:
         with:
           github_user_name: ${{ github.repository_owner }}
           outputs: |
-            dist/github-snake-dark.svg?color_snake=#22d3ee&color_dots=#161233,#3b1f6e,#6d28d9,#a855f7,#f472b6
+            dist/github-snake-dark.svg?palette=github-dark
 
-      - name: Give the snake the profile's dark background
+      - name: Restyle the snake to the profile theme
         run: python tools/frame_snake.py dist/*.svg
 
       - name: Push snake to the "output" branch

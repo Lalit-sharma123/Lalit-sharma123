@@ -36,32 +36,32 @@ PROFILE = [("role", "AI Developer / AI Engineer"),
 PROJECTS = [  # (file, name, problem, stack, accent)
  ("hospital-agent", "Hospital AI Agent",
   "An agent that answers hospital information and routine queries from connected data.",
-  ["LLM agents", "LangChain", "Databases"], "#22d3ee"),
+  ["LLM agents", "LangChain", "Databases"], ACC[0]),
  ("tryonai", "TryOnAI: Virtual Fashion Try-On",
   "See how clothing looks on you before you buy it.",
-  ["Computer Vision", "Generative AI", "Python"], "#c084fc"),
+  ["Computer Vision", "Generative AI", "Python"], ACC[1]),
  ("voice-assistant", "Personal Voice AI Assistant",
   "Hands-free help with everyday tasks through speech and LLMs.",
-  ["Speech", "LLMs", "Python"], "#f472b6"),
+  ["Speech", "LLMs", "Python"], ACC[2]),
  ("rag-knowledge", "RAG Knowledge Intelligence",
   "Ask questions across your own documents and get answers grounded in them.",
-  ["RAG", "Vector DB", "LangChain", "LangGraph"], "#2dd4bf"),
+  ["RAG", "Vector DB", "LangChain", "LangGraph"], ACC[3]),
  ("database-agent", "Database AI Agent",
   "Ask a database questions in plain English and let the agent work out the SQL.",
-  ["LLMs", "SQL", "FastAPI"], "#818cf8"),
+  ["LLMs", "SQL", "FastAPI"], ACC[4]),
  ("ai-analytics", "AI Analytics Platform",
   "An AI layer on top of business data that explains what the numbers mean.",
-  ["Python", "LLMs", "SQL"], "#fb923c"),
+  ["Python", "LLMs", "SQL"], ACC[5]),
 ]
 
 ARSENAL = [  # (label, accent, chips)
- ("AI / ML", "#22d3ee", ["Machine Learning", "Deep Learning", "NLP", "Computer Vision"]),
- ("Generative AI", "#c084fc", ["LLMs", "RAG", "Prompt Engineering", "AI Agents", "Multi-Agent Systems", "MCP"]),
- ("Frameworks", "#f472b6", ["LangChain", "LangGraph", "FastAPI", "Streamlit"]),
- ("Programming", "#2dd4bf", ["Python", "SQL", "JavaScript"]),
- ("Data", "#818cf8", ["Pandas", "NumPy", "Visualization"]),
- ("Databases", "#fb923c", ["PostgreSQL", "MySQL", "MariaDB", "SQL Server", "MongoDB", "Redis", "Vector Databases"]),
- ("Tools", "#22d3ee", ["Git", "GitHub", "Docker", "Linux", "REST APIs"]),
+ ("AI / ML", ACC[0], ["Machine Learning", "Deep Learning", "NLP", "Computer Vision"]),
+ ("Generative AI", ACC[1], ["LLMs", "RAG", "Prompt Engineering", "AI Agents", "Multi-Agent Systems", "MCP"]),
+ ("Frameworks", ACC[2], ["LangChain", "LangGraph", "FastAPI", "Streamlit"]),
+ ("Programming", ACC[3], ["Python", "SQL", "JavaScript"]),
+ ("Data", ACC[4], ["Pandas", "NumPy", "Visualization"]),
+ ("Databases", ACC[5], ["PostgreSQL", "MySQL", "MariaDB", "SQL Server", "MongoDB", "Redis", "Vector Databases"]),
+ ("Tools", ACC[0], ["Git", "GitHub", "Docker", "Linux", "REST APIs"]),
 ]
 
 LAB = ["AI agents", "Advanced RAG pipelines", "LLM application architecture",
@@ -72,8 +72,8 @@ SECTIONS = [("about", "About Me", "01"), ("arsenal", "AI Engineering Arsenal", "
             ("stats", "GitHub Statistics", "05"), ("snake", "Contribution Snake", "06"),
             ("connect", "Let's Connect", "07")]
 
-BUTTONS = [("linkedin", "LinkedIn", "#38bdf8"), ("email", "Email", "#f472b6"),
-           ("portfolio", "Portfolio", "#c084fc"), ("github", "GitHub", "#2dd4bf")]
+BUTTONS = [("linkedin", "LinkedIn", ACC[5]), ("email", "Email", ACC[1]),
+           ("portfolio", "Portfolio", ACC[2]), ("github", "GitHub", ACC[0])]
 
 QUOTE = "Models make predictions. Engineering makes them dependable."
 QUOTE_SUB = "Built to run in production, not just in a notebook."
@@ -83,7 +83,7 @@ QUOTE_SUB = "Built to run in production, not just in a notebook."
 # ============================== HEADER ==============================
 W, H = 1200, 470
 hero_blobs = [(160, 90, 230, CYAN, 120, 60, 18), (1000, 140, 260, VIOLET, -140, 70, 22),
-              (640, 470, 240, PINK, 100, -80, 20), (420, 260, 150, "#6366f1", -80, -50, 16)]
+              (640, 470, 240, PINK, 100, -80, 20), (420, 260, 150, ACC[4], -80, -50, 16)]
 
 # typing roles (discrete width animation on a clip per role)
 FS, CW, X0, YT = 22, 22 * 0.6, 112, 336
@@ -131,7 +131,7 @@ caret = (f'<rect y="{YT-20}" width="10" height="26" rx="2" fill="{CYAN}" filter=
 # hero tag chips
 tags, tx = "", 80
 for j, t in enumerate(HERO_TAGS):
-    s, w = chip(tx, 378, t, [CYAN, VIOLET, PINK, "#818cf8"][j % 4], fs=15, cls="f", delay=1.2 + j * .15)
+    s, w = chip(tx, 378, t, [CYAN, PINK, VIOLET, ACC[3]][j % 4], fs=15, cls="f", delay=1.2 + j * .15)
     tags += s
     tx += w + 10
 
@@ -170,9 +170,9 @@ header = svg_open(W, H, f"{NAME} - {HEADLINE}. Roles: {', '.join(ROLES)}") + def
 {glass(f'<rect x="40" y="40" width="700" height="390" rx="28"', W, H, sweep_dur=9)}
 {comet(rrect_path(40, 40, 700, 390, 28), CYAN, dur=10, length=90)}
 <g class="f" style="animation-delay:.1s">
-<rect x="80" y="82" width="272" height="34" rx="17" fill="#22c55e" fill-opacity=".10" stroke="#22c55e" stroke-opacity=".5"/>
-<circle class="pulse" cx="100" cy="99" r="5" fill="#22c55e" filter="url(#glow)"/>
-<text x="114" y="104.5" font-size="14" fill="#bbf7d0" style="{MONO}">online · building AI systems</text></g>
+<rect x="80" y="82" width="272" height="34" rx="17" fill="{LIVE}" fill-opacity=".10" stroke="{LIVE}" stroke-opacity=".5"/>
+<circle class="pulse" cx="100" cy="99" r="5" fill="{LIVE}" filter="url(#glow)"/>
+<text x="114" y="104.5" font-size="14" fill="{LIVE_TEXT}" style="{MONO}">online · building AI systems</text></g>
 <text class="f" style="animation-delay:.3s;{SANS}" x="80" y="168" font-size="24" fill="{MUTED}">Hi there, I'm</text>
 <text class="f" style="animation-delay:.5s;{SANS}" x="78" y="232" font-size="56" font-weight="800" letter-spacing="-.5" fill="url(#shimmer)">{E(NAME)}</text>
 <text class="f" style="animation-delay:.7s;{SANS}" x="80" y="278" font-size="21" fill="{TEXT}" fill-opacity=".9">{E(HEADLINE)}</text>
@@ -188,7 +188,7 @@ header = svg_open(W, H, f"{NAME} - {HEADLINE}. Roles: {', '.join(ROLES)}") + def
 <circle cx="{OX}" cy="{OY}" r="46" fill="url(#core)"><animate attributeName="r" values="42;54;42" dur="3.2s" repeatCount="indefinite"/></circle>
 <g><animateTransform attributeName="transform" type="rotate" from="0 {OX} {OY}" to="360 {OX} {OY}" dur="40s" repeatCount="indefinite"/>
 <circle cx="{OX}" cy="{OY}" r="{OR-14}" fill="none" stroke="url(#acc)" stroke-opacity=".5" stroke-dasharray="2 10"/></g>
-<text x="{OX}" y="{OY+11}" font-size="30" font-weight="800" fill="#0b0820" text-anchor="middle" style="{SANS}">AI</text>
+<text x="{OX}" y="{OY+11}" font-size="30" font-weight="800" fill="{SEAM}" text-anchor="middle" style="{SANS}">AI</text>
 {orbits}
 <text x="1160" y="452" font-size="13" fill="{DIM}" text-anchor="end" style="{MONO}">github.com/Lalit-sharma123</text>
 </svg>'''
@@ -229,8 +229,8 @@ rows = ""
 for i, (k, v) in enumerate(PROFILE):
     y = card_y + 72 + i * 34
     rows += (f'<g class="f" style="animation-delay:{.9+i*.12:.2f}s"><text x="410" y="{y}" font-size="16" fill="{DIM}" style="{MONO}">{i+1:02d}</text>'
-             f'<text x="452" y="{y}" font-size="16" fill="#c084fc" style="{MONO}">{E(k)}<tspan fill="{DIM}">:</tspan></text>'
-             f'<text x="572" y="{y}" font-size="16" fill="#e2e8f0" style="{MONO}">{E(v)}</text></g>')
+             f'<text x="452" y="{y}" font-size="16" fill="{ACC[2]}" style="{MONO}">{E(k)}<tspan fill="{DIM}">:</tspan></text>'
+             f'<text x="572" y="{y}" font-size="16" fill="{TEXT}" style="{MONO}">{E(v)}</text></g>')
 AX, AY = 210, 150
 about = svg_open(W, H, f"About {NAME}. {BIO} " + "; ".join(f"{k}: {v}" for k, v in PROFILE)) + defs(W, H, b) + f'''
 <defs><linearGradient id="ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{CYAN}"/><stop offset=".5" stop-color="{VIOLET}"/><stop offset="1" stop-color="{PINK}"/></linearGradient></defs>
@@ -245,9 +245,9 @@ about = svg_open(W, H, f"About {NAME}. {BIO} " + "; ".join(f"{k}: {v}" for k, v 
 <text x="{AX}" y="{AY+22}" font-size="62" font-weight="800" fill="url(#shimmer)" text-anchor="middle" style="{SANS}">{E(INITIALS)}</text>
 <text x="{AX}" y="{AY+150}" font-size="22" font-weight="700" fill="{TEXT}" text-anchor="middle" style="{SANS}">{E(NAME)}</text>
 <text x="{AX}" y="{AY+178}" font-size="15" fill="{MUTED}" text-anchor="middle" style="{SANS}">AI Engineer</text>
-<g class="f" style="animation-delay:.4s"><rect x="{AX-100}" y="{AY+196}" width="200" height="32" rx="16" fill="#22c55e" fill-opacity=".1" stroke="#22c55e" stroke-opacity=".45"/>
-<circle class="pulse" cx="{AX-82}" cy="{AY+212}" r="4.5" fill="#22c55e" filter="url(#glow)"/>
-<text x="{AX-70}" y="{AY+217}" font-size="13.5" fill="#bbf7d0" style="{MONO}">open to collaborate</text></g>
+<g class="f" style="animation-delay:.4s"><rect x="{AX-100}" y="{AY+196}" width="200" height="32" rx="16" fill="{LIVE}" fill-opacity=".1" stroke="{LIVE}" stroke-opacity=".45"/>
+<circle class="pulse" cx="{AX-82}" cy="{AY+212}" r="4.5" fill="{LIVE}" filter="url(#glow)"/>
+<text x="{AX-70}" y="{AY+217}" font-size="13.5" fill="{LIVE_TEXT}" style="{MONO}">open to collaborate</text></g>
 <rect x="352" y="64" width="1" height="{H-128}" fill="url(#acc)" opacity=".35"/>
 <text x="384" y="74" font-size="15" fill="{CYAN}" style="{MONO}">$ cat about.md</text>
 {bio}
@@ -336,7 +336,7 @@ lines = (f'<text class="f" style="animation-delay:.2s;{MONO}" x="84" y="138" fon
 for i, item in enumerate(LAB):
     y = 226 + i * 52
     dly = 1.1 + i * .35
-    col = [CYAN, VIOLET, PINK, "#818cf8", "#2dd4bf"][i % 5]
+    col = [ACC[0], ACC[1], ACC[2], ACC[3], ACC[5]][i % 5]
     lines += (f'<g class="f" style="animation-delay:{dly:.2f}s">'
               f'<circle cx="94" cy="{y-6}" r="5" fill="{col}" filter="url(#glow)"/>'
               f'<text x="114" y="{y}" font-size="19" fill="{TEXT}" style="{MONO}">{E(item)}</text>'
@@ -354,7 +354,7 @@ save("lab-terminal.svg", svg_open(W, H, "Currently building: " + ", ".join(LAB))
 <rect x="40" y="76" width="1120" height="1" fill="#fff" fill-opacity=".1"/>
 <circle cx="72" cy="50" r="7" fill="#ff5f57"/><circle cx="96" cy="50" r="7" fill="#febc2e"/><circle cx="120" cy="50" r="7" fill="#28c840"/>
 <text x="600" y="55" font-size="14" fill="{MUTED}" text-anchor="middle" style="{MONO}">ai-lab — ~/current-work</text>
-<circle class="pulse" cx="1092" cy="50" r="5" fill="#22c55e" filter="url(#glow)"/><text x="1104" y="55" font-size="13" fill="#86efac" style="{MONO}">live</text>
+<circle class="pulse" cx="1092" cy="50" r="5" fill="{LIVE}" filter="url(#glow)"/><text x="1104" y="55" font-size="13" fill="{LIVE_TEXT}" style="{MONO}">live</text>
 {lines}
 </svg>''')
 

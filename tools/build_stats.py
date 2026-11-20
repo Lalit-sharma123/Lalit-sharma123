@@ -12,9 +12,9 @@ otherwise the workflow's GITHUB_TOKEN (public activity only).
 import datetime as dt, json, os, sys, urllib.request
 from glass import *  # noqa: F401,F403
 
-# Categorical order for languages; validated (lightness band, CVD, contrast) on the panel surface.
-LANG_COLORS = ["#0891b2", "#a855f7", "#ea580c", "#ec4899", "#65a30d", "#6366f1"]
-OTHER = "#64748b"
+# Categorical order for languages comes from the theme; each preset's list is validated
+# (lightness band, colour-blind separation, contrast) against that theme's panel surface.
+LANG_COLORS, OTHER = T["lang"], T["other"]
 
 QUERY = """
 query($login:String!, $after:String){ user(login:$login){

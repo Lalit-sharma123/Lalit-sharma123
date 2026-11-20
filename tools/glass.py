@@ -11,10 +11,44 @@ os.makedirs(OUT, exist_ok=True)
 
 SANS = "font-family:'Segoe UI',Inter,'Helvetica Neue',ui-sans-serif,system-ui,-apple-system,Roboto,Arial,sans-serif"
 MONO = "font-family:'JetBrains Mono','Fira Code','Cascadia Code',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace"
-TEXT, MUTED, DIM = "#f1f5f9", "#a5b0c2", "#6b7590"
-SEAM = "#09071c"          # colour every image fades to at its edges
-BG0, BG1 = SEAM, "#0e0a26"
-CYAN, VIOLET, PINK = "#22d3ee", "#a855f7", "#f472b6"
+# ============================== THEME ==============================
+# Pick a preset, run  python tools/generate_assets.py  and commit.
+# (The stats card and snake pick it up on the next workflow run.)
+THEME = "sunset"
+
+THEMES = {
+    # warm neon dusk: amber -> magenta -> violet over deep plum
+    "sunset": dict(seam="#0c0614", bg1="#1f0b26", base="#14081a",
+                   a1="#ffa94d", a2="#ff4f9a", a3="#9f6bff",
+                   acc=["#ffa94d", "#ff5fa2", "#b794ff", "#ffd166", "#ff7a6b", "#7dd3fc"],
+                   text="#fff5ee", muted="#d4bfcf", dim="#937a98",
+                   live="#4ade80", live_text="#bbf7d0",
+                   lang=["#d97706", "#db2777", "#7c3aed", "#0891b2", "#65a30d", "#2563eb"], other="#78716c",
+                   snake="#ffa94d", dots=["#1d1022", "#4a1942", "#8a2b5f", "#e0457b", "#ffa94d"]),
+    # the previous look: cyan -> violet -> pink over ink blue
+    "aurora": dict(seam="#09071c", bg1="#0e0a26", base="#0a0820",
+                   a1="#22d3ee", a2="#a855f7", a3="#f472b6",
+                   acc=["#22d3ee", "#c084fc", "#f472b6", "#2dd4bf", "#818cf8", "#fb923c"],
+                   text="#f1f5f9", muted="#a5b0c2", dim="#6b7590",
+                   live="#22c55e", live_text="#bbf7d0",
+                   lang=["#0891b2", "#a855f7", "#ea580c", "#ec4899", "#65a30d", "#6366f1"], other="#64748b",
+                   snake="#22d3ee", dots=["#161233", "#3b1f6e", "#6d28d9", "#a855f7", "#f472b6"]),
+    # deep sea: sky -> indigo -> teal over midnight navy
+    "ocean": dict(seam="#050b18", bg1="#0a1a33", base="#071226",
+                  a1="#38bdf8", a2="#6366f1", a3="#2dd4bf",
+                  acc=["#38bdf8", "#818cf8", "#2dd4bf", "#a78bfa", "#60a5fa", "#fbbf24"],
+                  text="#f0f9ff", muted="#a8bcd4", dim="#6a809c",
+                  live="#4ade80", live_text="#bbf7d0",
+                  lang=["#0891b2", "#7c3aed", "#d97706", "#db2777", "#65a30d", "#2563eb"], other="#64748b",
+                  snake="#38bdf8", dots=["#0d1b30", "#0c3a5e", "#0369a1", "#0ea5e9", "#7dd3fc"]),
+}
+T = THEMES[THEME]
+SEAM = T["seam"]          # colour every image fades to at its edges
+BG0, BG1, GLASS_BASE = SEAM, T["bg1"], T["base"]
+TEXT, MUTED, DIM = T["text"], T["muted"], T["dim"]
+CYAN, VIOLET, PINK = T["a1"], T["a2"], T["a3"]   # primary / secondary / tertiary accent
+ACC = T["acc"]             # six accents for projects, skills, buttons
+LIVE, LIVE_TEXT = T["live"], T["live_text"]
 
 CSS = """
 .f{animation:fi .9s cubic-bezier(.2,.7,.2,1) both}
@@ -120,7 +154,7 @@ def glass(shape, w, h, sweep=True, sweep_dur=8, sweep_begin=0, tint=None, streng
     if shadow:
         out += f'<g transform="translate(0 14)" opacity=".55">{shape} fill="#000" filter="url(#shadow)"/></g>'
     out += f'<clipPath id="g{k}">{shape}/></clipPath><g clip-path="url(#g{k})">'
-    out += f'<rect width="{w}" height="{h}" fill="#0a0820" fill-opacity=".68"/>'
+    out += f'<rect width="{w}" height="{h}" fill="{GLASS_BASE}" fill-opacity=".68"/>'
     out += f'<use href="#blobs" filter="url(#frost)" opacity="{strength}"/>'
     if tint:
         out += f'<rect width="{w}" height="{h}" fill="{tint}" fill-opacity=".05"/>'
