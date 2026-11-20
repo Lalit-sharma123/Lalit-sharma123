@@ -10,9 +10,7 @@ Edit the CONFIG block, run the script, commit the new SVGs.
 """
 import math, os, random, textwrap
 from html import escape as E
-
-OUT = os.path.join(os.path.dirname(__file__), "..", "assets")
-os.makedirs(OUT, exist_ok=True)
+from glass import *  # noqa: F401,F403  (helpers, colours, save, glass, chip ...)
 
 # ============================== CONFIG ==============================
 NAME = "Lalit Kumar Sharma"
@@ -80,135 +78,6 @@ BUTTONS = [("linkedin", "LinkedIn", "#38bdf8"), ("email", "Email", "#f472b6"),
 QUOTE = "Models make predictions. Engineering makes them dependable."
 QUOTE_SUB = "Built to run in production, not just in a notebook."
 # ====================================================================
-
-SANS = "font-family:'Segoe UI',Inter,'Helvetica Neue',ui-sans-serif,system-ui,-apple-system,Roboto,Arial,sans-serif"
-MONO = "font-family:'JetBrains Mono','Fira Code','Cascadia Code',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace"
-TEXT, MUTED, DIM = "#f1f5f9", "#a5b0c2", "#6b7590"
-BG0, BG1 = "#05040d", "#0e0a26"
-CYAN, VIOLET, PINK = "#22d3ee", "#a855f7", "#f472b6"
-
-CSS = """
-.f{animation:fi .9s cubic-bezier(.2,.7,.2,1) both}
-@keyframes fi{from{transform:translateY(14px)}to{transform:translateY(0)}}
-.blink{animation:bl 1.05s steps(1) infinite}
-@keyframes bl{50%{opacity:0}}
-.pulse{animation:pu 2.4s ease-in-out infinite}
-@keyframes pu{0%,100%{opacity:.35}50%{opacity:1}}
-@media (prefers-reduced-motion:reduce){.f,.blink,.pulse{animation:none}}
-"""
-
-
-def save(name, svg):
-    with open(os.path.join(OUT, name), "w", encoding="utf-8") as fh:
-        fh.write(svg)
-
-
-def tw(s, fs, k=0.56):  # rough rendered text width
-    return len(s) * fs * k
-
-
-def rrect_path(x, y, w, h, r):
-    return (f"M{x+r} {y}H{x+w-r}A{r} {r} 0 0 1 {x+w} {y+r}V{y+h-r}A{r} {r} 0 0 1 {x+w-r} {y+h}"
-            f"H{x+r}A{r} {r} 0 0 1 {x} {y+h-r}V{y+r}A{r} {r} 0 0 1 {x+r} {y}Z")
-
-
-def svg_open(w, h, label, extra_css=""):
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {w} {h}" width="100%" '
-            f'role="img" aria-label="{E(label)}"><title>{E(label)}</title><style>{CSS}{extra_css}</style>')
-
-
-def defs(w, h, blobs, rx=22):
-    """Shared defs: background, aurora blob layer (#blobs), filters, glass gradients."""
-    circles = ""
-    for cx, cy, r, col, dx, dy, dur in blobs:
-        circles += (f'<circle cx="{cx}" cy="{cy}" r="{r}" fill="{col}" fill-opacity=".62">'
-                    f'<animateTransform attributeName="transform" type="translate" dur="{dur}s" '
-                    f'repeatCount="indefinite" values="0 0;{dx} {dy};{-dx*.6:.0f} {dy*.5:.0f};0 0" '
-                    f'calcMode="spline" keySplines=".45 0 .55 1;.45 0 .55 1;.45 0 .55 1"/></circle>')
-    pad = 400
-    return f'''<defs>
-<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{BG0}"/><stop offset=".55" stop-color="{BG1}"/><stop offset="1" stop-color="{BG0}"/></linearGradient>
-<g id="blobs">{circles}</g>
-<filter id="soft" filterUnits="userSpaceOnUse" x="-{pad}" y="-{pad}" width="{w+2*pad}" height="{h+2*pad}"><feGaussianBlur stdDeviation="70"/></filter>
-<filter id="frost" filterUnits="userSpaceOnUse" x="-{pad}" y="-{pad}" width="{w+2*pad}" height="{h+2*pad}"><feGaussianBlur stdDeviation="38"/><feColorMatrix type="saturate" values="1.5"/></filter>
-<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-<filter id="shadow" x="-20%" y="-20%" width="140%" height="160%"><feGaussianBlur stdDeviation="18"/></filter>
-<filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .55 0"/></filter>
-<pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.1" fill="#ffffff" fill-opacity=".07"/></pattern>
-<linearGradient id="edge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".35" stop-color="#fff" stop-opacity=".08"/><stop offset=".7" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="{VIOLET}" stop-opacity=".55"/></linearGradient>
-<linearGradient id="sheen" x1="0" y1="0" x2=".6" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".13"/><stop offset=".45" stop-color="#fff" stop-opacity=".02"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-<linearGradient id="sweep" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".10"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
-<linearGradient id="shimmer" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="520" y2="0" spreadMethod="reflect">
-<stop offset="0" stop-color="{CYAN}"/><stop offset=".5" stop-color="{VIOLET}"/><stop offset="1" stop-color="{PINK}"/>
-<animateTransform attributeName="gradientTransform" type="translate" from="0 0" to="1040 0" dur="7s" repeatCount="indefinite"/></linearGradient>
-<linearGradient id="acc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="{CYAN}"/><stop offset=".5" stop-color="{VIOLET}"/><stop offset="1" stop-color="{PINK}"/></linearGradient>
-<clipPath id="page"><rect width="{w}" height="{h}" rx="{rx}"/></clipPath>
-</defs>'''
-
-
-def background(w, h, rx=22, dots=True):
-    return (f'<rect width="{w}" height="{h}" rx="{rx}" fill="url(#bg)"/>'
-            f'<g clip-path="url(#page)"><use href="#blobs" filter="url(#soft)" opacity=".62"/>'
-            + (f'<rect width="{w}" height="{h}" fill="url(#dots)"/>' if dots else "") + '</g>')
-
-
-_gid = [0]
-
-
-def glass(shape, w, h, sweep=True, sweep_dur=8, sweep_begin=0, tint=None, strength=.42, shadow=True):
-    """Frosted-glass panel. `shape` is an SVG shape element string (rect/circle/path) WITHOUT closing '/>'."""
-    _gid[0] += 1
-    k = _gid[0]
-    out = ""
-    if shadow:
-        out += f'<g transform="translate(0 14)" opacity=".55">{shape} fill="#000" filter="url(#shadow)"/></g>'
-    out += f'<clipPath id="g{k}">{shape}/></clipPath><g clip-path="url(#g{k})">'
-    out += f'<rect width="{w}" height="{h}" fill="#0a0820" fill-opacity=".68"/>'
-    out += f'<use href="#blobs" filter="url(#frost)" opacity="{strength}"/>'
-    if tint:
-        out += f'<rect width="{w}" height="{h}" fill="{tint}" fill-opacity=".05"/>'
-    out += f'<rect width="{w}" height="{h}" fill="#fff" fill-opacity=".035"/>'
-    out += f'<rect width="{w}" height="{h}" filter="url(#grain)" opacity=".05"/>'
-    out += f'{shape} fill="url(#sheen)"/>'
-    if sweep:
-        out += (f'<polygon points="0,0 140,0 60,{h} -80,{h}" fill="url(#sweep)">'
-                f'<animateTransform attributeName="transform" type="translate" values="-300 0;{w+300} 0;{w+300} 0" '
-                f'keyTimes="0;.45;1" dur="{sweep_dur}s" begin="{sweep_begin}s" repeatCount="indefinite"/></polygon>')
-    out += '</g>'
-    out += f'{shape} fill="none" stroke="url(#edge)" stroke-width="1.3"/>'
-    return out
-
-
-def comet(path, color, dur=6, length=120, width=2.4, begin=0):
-    """A bright segment that travels around a path (path should be ~1000 user units via pathLength)."""
-    return (f'<path d="{path}" pathLength="1000" fill="none" stroke="{color}" stroke-width="{width}" '
-            f'stroke-linecap="round" stroke-dasharray="{length} {1000-length}" filter="url(#glow)">'
-            f'<animate attributeName="stroke-dashoffset" from="1000" to="0" dur="{dur}s" begin="{begin}s" repeatCount="indefinite"/></path>')
-
-
-def particles(w, h, n, seed, colors=(CYAN, VIOLET, PINK, "#ffffff")):
-    rnd = random.Random(seed)
-    out = ""
-    for _ in range(n):
-        x, y = rnd.uniform(0, w), rnd.uniform(0, h)
-        r = rnd.uniform(.8, 2.2)
-        dur = rnd.uniform(7, 15)
-        rise = rnd.uniform(40, 110)
-        c = rnd.choice(colors)
-        out += (f'<circle cx="{x:.0f}" cy="{y:.0f}" r="{r:.1f}" fill="{c}">'
-                f'<animate attributeName="cy" values="{y:.0f};{y-rise:.0f}" dur="{dur:.1f}s" repeatCount="indefinite"/>'
-                f'<animate attributeName="opacity" values="0;.9;0" dur="{dur:.1f}s" repeatCount="indefinite"/></circle>')
-    return out
-
-
-def chip(x, y, label, col, fs=15, h=34, cls="", delay=0.0):
-    w = tw(label, fs, .58) + 34
-    style = f' class="{cls}" style="animation-delay:{delay:.2f}s"' if cls else ""
-    return (f'<g{style}><rect x="{x:.1f}" y="{y}" width="{w:.1f}" height="{h}" rx="{h/2}" fill="{col}" fill-opacity=".10" '
-            f'stroke="{col}" stroke-opacity=".55"/>'
-            f'<rect x="{x+1:.1f}" y="{y+1}" width="{w-2:.1f}" height="{h/2-1}" rx="{h/2-1}" fill="#fff" fill-opacity=".05"/>'
-            f'<circle cx="{x+15:.1f}" cy="{y+h/2}" r="3.2" fill="{col}" filter="url(#glow)"/>'
-            f'<text x="{x+25:.1f}" y="{y+h/2+fs*.36:.1f}" font-size="{fs}" fill="{TEXT}" style="{SANS}">{E(label)}</text></g>'), w
 
 
 # ============================== HEADER ==============================
@@ -291,12 +160,12 @@ signals = "".join(
     f'path="M{nodes[i][0]:.0f} {nodes[i][1]:.0f}L{OX} {OY}"/><animate attributeName="opacity" values="0;1;0" '
     f'dur="{2.2+i*.35:.2f}s" begin="{i*.4:.1f}s" repeatCount="indefinite"/></circle>' for i in range(0, 10, 2))
 
-header = svg_open(W, H, f"{NAME} - {HEADLINE}. Roles: {', '.join(ROLES)}") + defs(W, H, hero_blobs, rx=26) + f'''
+header = svg_open(W, H, f"{NAME} - {HEADLINE}. Roles: {', '.join(ROLES)}") + defs(W, H, hero_blobs, corners=(26, 26, 0, 0)) + f'''
 <defs>{clips}
 <radialGradient id="core"><stop offset="0" stop-color="#fff"/><stop offset=".25" stop-color="{CYAN}"/><stop offset=".7" stop-color="{VIOLET}" stop-opacity=".5"/><stop offset="1" stop-color="{VIOLET}" stop-opacity="0"/></radialGradient>
 <radialGradient id="orbHL" cx=".32" cy=".25" r=".6"><stop offset="0" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
 </defs>
-{background(W, H, 26)}
+{background(W, H)}
 <g clip-path="url(#page)">{particles(W, H, 34, 11)}</g>
 {glass(f'<rect x="40" y="40" width="700" height="390" rx="28"', W, H, sweep_dur=9)}
 {comet(rrect_path(40, 40, 700, 390, 28), CYAN, dur=10, length=90)}
@@ -328,12 +197,12 @@ save("header.svg", header)
 # ========================== SECTION HEADERS ==========================
 for key, title, num in SECTIONS:
     W, H = 1200, 104
-    _gid[0] = 0
+    reset_ids()
     b = [(120, 50, 140, CYAN, 160, 10, 14), (700, 60, 160, VIOLET, -180, 0, 17), (1100, 40, 130, PINK, -80, 10, 12)]
     pw = 1120
     tline = 140 + tw(title, 30, .56)
-    save(f"sec-{key}.svg", svg_open(W, H, title) + defs(W, H, b, rx=24) + f'''
-{background(W, H, 24)}
+    save(f"sec-{key}.svg", svg_open(W, H, title) + defs(W, H, b) + f'''
+{background(W, H)}
 {glass(f'<rect x="40" y="16" width="{pw}" height="72" rx="22"', W, H, sweep_dur=6, sweep_begin=int(num) * .6, shadow=False)}
 {comet(rrect_path(40, 16, pw, 72, 22), CYAN, dur=8, length=70, begin=-int(num))}
 <circle cx="88" cy="52" r="22" fill="url(#acc)" fill-opacity=".18" stroke="url(#acc)" stroke-opacity=".7"/>
@@ -347,7 +216,7 @@ for key, title, num in SECTIONS:
 
 # =============================== ABOUT ===============================
 W = 1200
-_gid[0] = 0
+reset_ids()
 bio_lines = textwrap.wrap(BIO, 74)
 bio_y0 = 108
 card_y = bio_y0 + len(bio_lines) * 31 + 22
@@ -363,9 +232,9 @@ for i, (k, v) in enumerate(PROFILE):
              f'<text x="452" y="{y}" font-size="16" fill="#c084fc" style="{MONO}">{E(k)}<tspan fill="{DIM}">:</tspan></text>'
              f'<text x="572" y="{y}" font-size="16" fill="#e2e8f0" style="{MONO}">{E(v)}</text></g>')
 AX, AY = 210, 150
-about = svg_open(W, H, f"About {NAME}. {BIO} " + "; ".join(f"{k}: {v}" for k, v in PROFILE)) + defs(W, H, b, rx=26) + f'''
+about = svg_open(W, H, f"About {NAME}. {BIO} " + "; ".join(f"{k}: {v}" for k, v in PROFILE)) + defs(W, H, b) + f'''
 <defs><linearGradient id="ring" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="{CYAN}"/><stop offset=".5" stop-color="{VIOLET}"/><stop offset="1" stop-color="{PINK}"/></linearGradient></defs>
-{background(W, H, 26)}
+{background(W, H)}
 {glass(f'<rect x="40" y="24" width="1120" height="{H-48}" rx="28"', W, H, sweep_dur=10)}
 <circle cx="{AX}" cy="{AY}" r="112" fill="{VIOLET}" fill-opacity=".25" filter="url(#soft)"/>
 {glass(f'<circle cx="{AX}" cy="{AY}" r="92"', W, H, sweep=False, strength=.9, shadow=False)}
@@ -392,7 +261,7 @@ save("about.svg", about)
 
 # ============================== ARSENAL ==============================
 W = 1200
-_gid[0] = 0
+reset_ids()
 LX, MAXX, y = 300, 1120, 64
 body, d = "", 0.15
 for label, col, chips in ARSENAL:
@@ -415,8 +284,8 @@ for label, col, chips in ARSENAL:
 H = y + 44
 b = [(150, 100, 220, CYAN, 140, 80, 18), (1050, H / 2, 240, VIOLET, -150, 40, 22), (600, H, 220, PINK, 80, -70, 16)]
 save("arsenal.svg", svg_open(W, H, "Technologies: " + "; ".join(f"{l}: {', '.join(c)}" for l, _, c in ARSENAL))
-     + defs(W, H, b, rx=26) + f'''
-{background(W, H, 26)}
+     + defs(W, H, b) + f'''
+{background(W, H)}
 {glass(f'<rect x="40" y="24" width="1120" height="{H-48}" rx="28"', W, H, sweep_dur=9)}
 {comet(rrect_path(40, 24, 1120, H - 48, 28), VIOLET, dur=12, length=80)}
 {body}
@@ -424,7 +293,7 @@ save("arsenal.svg", svg_open(W, H, "Technologies: " + "; ".join(f"{l}: {', '.joi
 
 # ============================ PROJECT CARDS ===========================
 for idx, (fid, name, problem, stack, col) in enumerate(PROJECTS, 1):
-    _gid[0] = 0
+    reset_ids()
     W, H = 600, 360
     b = [(80, 60, 170, col, 90, 50, 14 + idx), (560, 330, 170, VIOLET, -90, -40, 17 + idx), (420, 40, 110, PINK, -40, 40, 12)]
     wrapped = textwrap.wrap(problem, 50)[:3]
@@ -440,8 +309,8 @@ for idx, (fid, name, problem, stack, col) in enumerate(PROJECTS, 1):
         x += w + 8
     title = name if len(name) <= 34 else name[:33] + "…"
     card = rrect_path(16, 16, 568, 328, 24)
-    save(f"card-{fid}.svg", svg_open(W, H, f"{name}: {problem} Stack: {', '.join(stack)}") + defs(W, H, b, rx=26) + f'''
-{background(W, H, 26)}
+    save(f"card-{fid}.svg", svg_open(W, H, f"{name}: {problem} Stack: {', '.join(stack)}") + defs(W, H, b) + f'''
+{background(W, H, hfade=True)}
 {glass(f'<path d="{card}"', W, H, sweep_dur=7, sweep_begin=idx * .8, tint=col, strength=.5)}
 <path d="{card}" fill="none" stroke="{col}" stroke-opacity=".25" stroke-width="1.2"/>
 {comet(card, col, dur=6 + idx * .4, length=150, width=2.6, begin=-idx)}
@@ -459,7 +328,7 @@ for idx, (fid, name, problem, stack, col) in enumerate(PROJECTS, 1):
 
 # ================================ LAB ================================
 W = 1200
-_gid[0] = 0
+reset_ids()
 H = 160 + len(LAB) * 52 + 110
 b = [(220, 120, 220, CYAN, 120, 60, 18), (1000, H - 80, 240, VIOLET, -130, -40, 21), (650, 40, 160, PINK, 90, 60, 15)]
 lines = (f'<text class="f" style="animation-delay:.2s;{MONO}" x="84" y="138" font-size="18" fill="{MUTED}"><tspan fill="{CYAN}">❯</tspan> ai-lab --status --watch</text>'
@@ -477,8 +346,8 @@ for i, item in enumerate(LAB):
               f'<animate attributeName="x" values="560;1080" dur="{2.4+i*.3:.1f}s" repeatCount="indefinite"/></rect></g>'
               f'<text x="1120" y="{y-2}" font-size="12" fill="{DIM}" text-anchor="end" style="{MONO}" class="pulse">wip</text></g>')
 lines += f'<text class="blink" x="84" y="{226+len(LAB)*52-6}" font-size="20" fill="{CYAN}" style="{MONO}">▋</text>'
-save("lab-terminal.svg", svg_open(W, H, "Currently building: " + ", ".join(LAB)) + defs(W, H, b, rx=26) + f'''
-{background(W, H, 26)}
+save("lab-terminal.svg", svg_open(W, H, "Currently building: " + ", ".join(LAB)) + defs(W, H, b) + f'''
+{background(W, H)}
 {glass(f'<rect x="40" y="24" width="1120" height="{H-48}" rx="24"', W, H, sweep_dur=8)}
 {comet(rrect_path(40, 24, 1120, H - 48, 24), CYAN, dur=11, length=70)}
 <path d="M40 76V48a24 24 0 0 1 24-24h1072a24 24 0 0 1 24 24v28z" fill="#fff" fill-opacity=".04"/>
@@ -491,11 +360,11 @@ save("lab-terminal.svg", svg_open(W, H, "Currently building: " + ", ".join(LAB))
 
 # ============================== FOOTER ==============================
 W, H = 1200, 240
-_gid[0] = 0
+reset_ids()
 b = [(150, 120, 200, CYAN, 160, 30, 16), (600, 200, 220, VIOLET, -100, -40, 19), (1050, 80, 200, PINK, -150, 40, 17)]
 wave = "M80 186H420l14-16 14 32 18-52 16 44 12-20 10 12H1120"
-save("footer.svg", svg_open(W, H, QUOTE) + defs(W, H, b, rx=26) + f'''
-{background(W, H, 26)}
+save("footer.svg", svg_open(W, H, QUOTE) + defs(W, H, b, corners=(0, 0, 26, 26)) + f'''
+{background(W, H)}
 <g clip-path="url(#page)">{particles(W, H, 22, 5)}</g>
 {glass(f'<rect x="40" y="24" width="1120" height="{H-48}" rx="28"', W, H, sweep_dur=8)}
 <text class="f" x="600" y="86" font-size="27" font-weight="700" fill="url(#shimmer)" text-anchor="middle" style="{SANS}">{E(QUOTE)}</text>
@@ -514,17 +383,17 @@ ICONS = {
     "github": lambda c: f'<text x="0" y="5" font-size="15" font-weight="800" fill="{c}" text-anchor="middle" style="{MONO}">&lt;/&gt;</text>',
 }
 for i, (key, label, col) in enumerate(BUTTONS):
-    _gid[0] = 0
-    W, H = 280, 80
-    b = [(40, 40, 70, col, 120, 0, 6 + i), (240, 40, 70, VIOLET, -120, 0, 8 + i)]
-    save(f"btn-{key}.svg", svg_open(W, H, label) + defs(W, H, b, rx=18) + f'''
-{background(W, H, 18, dots=False)}
-{glass(f'<rect x="8" y="8" width="264" height="64" rx="16"', W, H, sweep_dur=5, sweep_begin=i * .7, tint=col, shadow=False)}
-{comet(rrect_path(8, 8, 264, 64, 16), col, dur=5, length=120, begin=-i)}
-<circle cx="48" cy="40" r="22" fill="{col}" fill-opacity=".14" stroke="{col}" stroke-opacity=".5"/>
-<g transform="translate(48 40)" filter="url(#glow)">{ICONS[key](col)}</g>
-<text x="84" y="47" font-size="19" font-weight="700" fill="{TEXT}" style="{SANS}">{E(label)}</text>
-<text x="246" y="47" font-size="18" fill="{col}" text-anchor="end" style="{SANS}">↗<animateTransform attributeName="transform" type="translate" values="0 0;3 -3;0 0" dur="1.8s" repeatCount="indefinite"/></text>
+    reset_ids()
+    W, H = 300, 96
+    b = [(50, 48, 80, col, 130, 0, 6 + i), (250, 48, 80, VIOLET, -130, 0, 8 + i)]
+    save(f"btn-{key}.svg", svg_open(W, H, label) + defs(W, H, b) + f'''
+{background(W, H, dots=False, hfade=True)}
+{glass(f'<rect x="16" y="16" width="268" height="64" rx="18"', W, H, sweep_dur=5, sweep_begin=i * .7, tint=col, shadow=False)}
+{comet(rrect_path(16, 16, 268, 64, 18), col, dur=5, length=120, begin=-i)}
+<circle cx="56" cy="48" r="22" fill="{col}" fill-opacity=".14" stroke="{col}" stroke-opacity=".5"/>
+<g transform="translate(56 48)" filter="url(#glow)">{ICONS[key](col)}</g>
+<text x="92" y="55" font-size="19" font-weight="700" fill="{TEXT}" style="{SANS}">{E(label)}</text>
+<text x="258" y="55" font-size="18" fill="{col}" text-anchor="end" style="{SANS}">↗<animateTransform attributeName="transform" type="translate" values="0 0;3 -3;0 0" dur="1.8s" repeatCount="indefinite"/></text>
 </svg>''')
 
 # remove assets from the previous design that are no longer used
