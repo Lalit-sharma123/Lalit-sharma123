@@ -13,6 +13,7 @@ root = (f":root{{--cb:{T['seam']};--cs:{T['snake']};--ce:{T['dots'][0]};"
 for path in sys.argv[1:]:
     svg = open(path, encoding="utf-8").read()
     svg = re.sub(r":root\{[^}]*\}", root, svg, count=1)
+    svg = re.sub(r'(<rect data-framed="1"[^>]*fill=")[^"]*"', rf'\g<1>{SEAM}"', svg)
     if 'data-framed="1"' not in svg:
         m = re.search(r"<svg\b[^>]*>", svg)
         if not m:
